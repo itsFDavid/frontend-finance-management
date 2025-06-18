@@ -36,6 +36,13 @@ const TransactionProvider = ({ children }) => {
   }, []);
 
   const getAllTransactions = useCallback(async () => {
+
+    if (!token) {
+      toast.error("No autorizado. Por favor inicia sesión.");
+      setRuta("/login");
+      return;
+    }
+
     try {
       const response = await fetch(`${URL_API}/transaction`, {
         headers: {
@@ -79,6 +86,13 @@ const TransactionProvider = ({ children }) => {
   // const getTransactionByOutflow = async () => {};
 
   const createTransaction = async (transactionData) => {
+
+    if (!token) {
+      toast.error("No autorizado. Por favor inicia sesión.");
+      setRuta("/login");
+      return;
+    }
+
     try {
       const response = await fetch(`${URL_API}/transaction`, {
         method: "POST",

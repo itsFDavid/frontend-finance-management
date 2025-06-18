@@ -18,6 +18,13 @@ const CategoryProvider = ({ children }) => {
 
 
   const fetchCategories = useCallback(async () => {
+
+    if (!token) {
+      toast.error("No autorizado. Por favor inicia sesión.");
+      setRuta("/login");
+      return;
+    }
+
     try {
       const response = await fetch(`${URL_API}/category`, {
         headers: {
@@ -52,6 +59,13 @@ const CategoryProvider = ({ children }) => {
   }, [token, setCategories, setRuta])
 
   const createCategory = async (categoryData) => {
+
+    if (!token) {
+      toast.error("No autorizado. Por favor inicia sesión.");
+      setRuta("/login");
+      return;
+    }
+
     try {
       console.log('Creating category with data:', categoryData)
       const response = await fetch(`${URL_API}/category`, {
