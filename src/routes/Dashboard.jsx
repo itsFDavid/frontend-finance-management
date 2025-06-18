@@ -6,10 +6,22 @@ import { ArrowDown } from "lucide-react";
 import CardQuickSee from "../atoms/CardQuickSee";
 import TransactionItem from "../atoms/TransactionItem";
 import { useTransaction } from "../context/TransactionContext";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useRoute } from "../context/RouteContext";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const { transactions, income, outflow, balance } = useTransaction();
+  const { isAuthenticated } = useContext(AuthContext);
+  const { setRuta } = useRoute();
 
+  // Si no está autenticado, redirigir a login
+  if (!isAuthenticated) {
+    setRuta("/login");
+    toast.error("Por favor, inicia sesión para acceder al dashboard.");
+    return;
+  }
 
 
 

@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { useCategory } from "../context/CategoryContext";
 import { toast } from "react-hot-toast";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Categories = () => {
   const [categoryName, setCategoryName] = useState("");
   const { categories, createCategory, setCategories } = useCategory()
+  const { isAuthenticated } = useContext(AuthContext);
 
   const handleSubmit = async(e) => {
     e.preventDefault();
+
+    if (!isAuthenticated) {
+      toast.error("Por favor, inicia sesión para crear una categoría.");
+      return;
+    }
 
     try {
       const newCategory = await createCategory({ name: categoryName });

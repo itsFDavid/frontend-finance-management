@@ -5,8 +5,11 @@ import TransactionItem from "../atoms/TransactionItem"
 import { useCategory } from "../context/CategoryContext"
 import { useTransaction } from "../context/TransactionContext"
 import { toast } from "react-hot-toast"
+import { useContext } from "react"
+import { AuthContext } from "../context/AuthContext"
 
 const Transactions = () => {
+  const { isAuthenticated } = useContext(AuthContext);
   const { transactions, createTransaction } = useTransaction()
   const { categories } = useCategory()
   const [description, setDescription] = useState("")
@@ -19,6 +22,11 @@ const Transactions = () => {
 
   const handleAddTransaction = async (e) => {
     e.preventDefault()
+    if (!isAuthenticated) {
+      toast.error("Debes iniciar sesión para agregar transacciones")
+      return
+    }
+
     const type = e.target.type.value
     const categoryId = e.target.category.value
 
